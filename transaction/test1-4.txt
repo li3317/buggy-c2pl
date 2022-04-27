@@ -1,0 +1,4 @@
+start
+r(A)
+a(A,d)
+w(A)

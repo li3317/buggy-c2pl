@@ -1,0 +1,7 @@
+start
+r(X)
+a(X,c)
+w(X)
+
+
+

@@ -1,0 +1,5 @@
+start
+r(Y)
+wait:5
+a(X,a)
+w(X)

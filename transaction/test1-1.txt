@@ -1,0 +1,16 @@
+start
+r(X)
+a(X,a)
+w(X)
+start
+r(X)
+a(X,a)
+w(X)
+start
+r(X)
+a(X,p)
+w(X)
+start
+r(X)
+a(X,q)
+w(X)
