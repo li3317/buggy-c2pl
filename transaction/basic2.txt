@@ -1,0 +1,4 @@
+start
+r(Y)
+a(Y,b)
+w(Y)

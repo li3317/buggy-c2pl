@@ -36,12 +36,12 @@ public class DataSite extends UnicastRemoteObject implements Runnable, DataSiteI
 	private static final Logger LOG = Logger.getLogger(DataSite.class.getName());
 //	private final String TXNFILE = "transaction/transaction1.txt";
 
-	public DataSite(int id, int port, String url, String txnFile, int centralPort, int totalSites) throws RemoteException, FileNotFoundException, UnsupportedEncodingException {
+	public DataSite(int id, int port, String url, String txnFile, int centralPort, int totalSites, String outputFile) throws RemoteException, FileNotFoundException, UnsupportedEncodingException {
 		super();
 		isBlocked = false;
 		isAbort = false;
 		this.id = id;
-		tm = new TransactionManager(this.id, totalSites, this);
+		tm = new TransactionManager(this.id, totalSites, this, outputFile);
 		participants = new ArrayList<>();
 		try {
 			// set up dataSite
@@ -57,7 +57,7 @@ public class DataSite extends UnicastRemoteObject implements Runnable, DataSiteI
 			// load transactions from file
 			tm.loadTxnFile(txnFile);
 
-			System.out.println("here2");
+//			System.out.println("here2");
 
 		} catch(RemoteException e) {
 			LOG.warning("[" + id + "] Remote Exception: " + e.getMessage());
@@ -101,7 +101,7 @@ public class DataSite extends UnicastRemoteObject implements Runnable, DataSiteI
 	@Override
 	public void executeOperation(Operation operation) throws RemoteException {
 		try {
-			System.out.println("[" + id + "] exe op pe:" + operation.getTransactionId());
+			LOG.info("[" + id + "] exe op pe:" + operation.getTransactionId());
 			tm.executeOperation(operation);
 		} catch (Exception e) {
 			LOG.warning("[" + id + "] exception in executeOperation, op not executed!");
@@ -176,7 +176,7 @@ public class DataSite extends UnicastRemoteObject implements Runnable, DataSiteI
 
 	@Override
 	public void run() {
-		System.out.println("running site " + id);
+		LOG.info("running site " + id);
 		this.startTime = System.currentTimeMillis();
 		while(true) {
 			try {
@@ -190,12 +190,12 @@ public class DataSite extends UnicastRemoteObject implements Runnable, DataSiteI
 							switch(operation.getType()) {
 								case GET:
 								case PUT:
-									System.out.println("request lock:" + operation + " " + operation.transactionId);
+									LOG.info("[" + id + "] request lock:" + operation + " " + operation.transactionId);
 									RequestLockResult result = cs.requestLock(operation);
 									if (result.isIndexSet()) {
 										operation.transactionId.setIndex(result.index);
 									}
-									System.out.println("set1?" + transaction.getTransactionId().isIndexSet());
+//									System.out.println("set1?" + transaction.getTransactionId().isIndexSet());
 									if(!result.granted) {
 										LOG.info("[" + id + "] lock for " + operation + " not granted");
 										blocked();
@@ -203,23 +203,23 @@ public class DataSite extends UnicastRemoteObject implements Runnable, DataSiteI
 										if (!isAbort) {
 											// lock granted, obtain index first
 											int newIndex = cs.setTxnCounter(transaction.getTransactionId());
-											System.out.println("got index " + newIndex + " , set ? " + operation.transactionId.getIndex());
+//											LOG.info("got index " + newIndex + " , set ? " + operation.transactionId.getIndex());
 											if (!operation.transactionId.isIndexSet()) {
 												operation.transactionId.setIndex(newIndex);
-												System.out.println("set2?" + transaction.getTransactionId().isIndexSet());
+//												System.out.println("set2?" + transaction.getTransactionId().isIndexSet());
 											}
 										}
 									}
 									if(isAbort) {
 										break;
 									}
-									System.out.println("exe op:" + operation.getTransactionId().getIndex());
+									LOG.info("[" + id + "] exe op:" + operation.getTransactionId().getIndex());
 									tm.executeOperation(operation);
 									break;
 
 								case APPEND: // must read transaction before append
-									System.out.println("append txn id :" + operation.getTransactionId());
-									System.out.println("exe op:" + operation.getTransactionId().getIndex());
+									LOG.info("[" + id + "] append txn id :" + operation.getTransactionId());
+									LOG.info("[" + id + "] exe op:" + operation.getTransactionId().getIndex());
 									tm.executeOperation(operation);
 									break;
 							}
@@ -228,12 +228,12 @@ public class DataSite extends UnicastRemoteObject implements Runnable, DataSiteI
 								break;
 							}
 
-							System.out.println("added: " + operation);
+//							System.out.println("added: " + operation);
 
 							// this op is save to be added to preCommitTab, update other sites
 							participants.forEach(p -> {
 								try {
-									System.out.println("exe op p:" + operation.getTransactionId().getIndex());
+//									System.out.println("exe op p:" + operation.getTransactionId().getIndex());
 									p.executeOperation(operation);
 								} catch (RemoteException e) {
 									LOG.info("[" + id + "] Remote Exception: " + e.getMessage());
@@ -259,11 +259,11 @@ public class DataSite extends UnicastRemoteObject implements Runnable, DataSiteI
 							});
 
 							isAbort = false;
-							System.out.println("sleep 1 sec");
+//							System.out.println("sleep 1 sec");
 							wait(500); // 1000
-							System.out.println("wake up");
+//							System.out.println("wake up");
 						} else {
-							System.out.println(transaction.getTransactionId() + " -1");
+//							System.out.println(transaction.getTransactionId() + " -1");
 							this.transactionDone(transaction.getTransactionId());
 							participants.forEach(p -> {
 								try {

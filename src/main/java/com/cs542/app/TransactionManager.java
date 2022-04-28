@@ -37,7 +37,7 @@ public class TransactionManager {
 
     private PrintWriter writer;
 
-    public TransactionManager(int siteId, int totalSites, DataSite ds) throws FileNotFoundException, UnsupportedEncodingException {
+    public TransactionManager(int siteId, int totalSites, DataSite ds, String outputFile) throws FileNotFoundException, UnsupportedEncodingException {
         this.siteId = siteId;
         this.totalSites = totalSites;
         txnHistory = new ArrayList<>();
@@ -45,7 +45,7 @@ public class TransactionManager {
         waitingTxn = ConcurrentHashMap.newKeySet();
         finishedSites = ConcurrentHashMap.newKeySet();
         abortedTxn = ConcurrentHashMap.newKeySet();
-        writer = new PrintWriter("output/ds" + siteId + "-out.txt", "UTF-8");
+        writer = new PrintWriter("output/ds" + siteId + "-" + outputFile + ".txt", "UTF-8");
         dbMgr = new DBManager(siteId, writer);
         this.ds = ds;
         setUpDB();
@@ -85,10 +85,10 @@ public class TransactionManager {
     // only commitThread can interact with database
     class CommitWorker implements Runnable {
         public void commitTxn(int index) throws Exception {
-            System.out.println("[" + siteId + "] committing " + index);
+            LOG.info("[" + siteId + "] committing " + index);
             List<Operation> operations = preCommitTab.get(index);
             Map<String, String> preWriteTab = new HashMap<>();
-            System.out.println("index: " + index + " " + operations);
+//            System.out.println("index: " + index + " " + operations);
             for (Operation operation : operations) {
                 String key = operation.getKey();
                 switch (operation.getType()) {
@@ -100,7 +100,7 @@ public class TransactionManager {
                         break;
 
                     case PUT:
-                        System.out.println("put val:" + preWriteTab.get(key));
+//                        System.out.println("put val:" + preWriteTab.get(key));
                         if(preWriteTab.containsKey(key)) {
                             getDbMgr().write(key, preWriteTab.get(key));
                         }
@@ -120,13 +120,13 @@ public class TransactionManager {
                         } else {
                             appendRes = operation.getValue();
                         }
-                        System.out.println("append val:" + appendRes);
+                        LOG.info("append val:" + appendRes);
                         preWriteTab.put(key, appendRes);
                         break;
                 }
             }
             waitingTxn.remove(index);
-            System.out.println("[" + siteId + "] remove " + index + " from waitingTxn");
+            LOG.info("[" + siteId + "] remove " + index + " from waitingTxn");
 
         }
 
@@ -135,7 +135,7 @@ public class TransactionManager {
             while (true) {
                 synchronized (this) {
                     while (!waitingTxn.contains(txnCounter)) {
-                        System.out.println("cw:" + txnCounter + " " + siteId); // TODO: why does this keep printing after printing result???
+//                        System.out.println("cw:" + txnCounter + " " + siteId);
                         if (abortedTxn.contains(txnCounter)) {
                             LOG.info("[" + siteId + "] (cw) skipping " + txnCounter + " waiting for " + (txnCounter + 1));
                             txnCounter++;
@@ -147,7 +147,7 @@ public class TransactionManager {
                             e.printStackTrace();
                         }
                     }
-                    System.out.println("[" + siteId + "] found " + txnCounter);
+                    LOG.info("[" + siteId + "] found " + txnCounter);
                     try {
                         commitTxn(txnCounter);
                     } catch (Exception e) {
@@ -204,14 +204,14 @@ public class TransactionManager {
     }
 
     public void finishSite(int site) {
-        System.out.println("[" + siteId + "] site " + site + " finished");
+        LOG.info("[" + siteId + "] site " + site + " finished");
         getFinishedSites().add(site);
     }
 
     public void executeOperation(Operation operation) throws Exception {
         try {
             Thread.sleep(TransactionManager.OP_DELAY);
-            System.out.println("[" + siteId + "] execute op index:" + operation);
+            LOG.info("[" + siteId + "] execute op index:" + operation);
             int index = operation.getTransactionId().getIndex();
             preCommitTab.putIfAbsent(index, new ArrayList<>());
             preCommitTab.get(index).add(operation);
@@ -256,7 +256,7 @@ public class TransactionManager {
                     transactions.add(current);
                 }
                 currentId = new TransactionId(this.seqNum, this.siteId);
-                System.out.println("1- " + currentId.toString());
+//                System.out.println("1- " + currentId.toString());
                 current = new Transaction(currentId);
                 opIndex = 0;
                 this.seqNum++;

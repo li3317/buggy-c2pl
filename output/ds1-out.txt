@@ -1,5 +1,5 @@
 -------1-------
-[Y: barssrssbaarssb]
 [X: aapqapqaaapq]
+[Y: barssarssbsbars]
 -------1-------
-site 1 took 45078 ms
+site 1 took 38078 ms

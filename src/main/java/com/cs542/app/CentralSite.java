@@ -69,7 +69,7 @@ public class CentralSite extends UnicastRemoteObject implements CentralSiteInter
             e.printStackTrace();
         }
 
-        System.out.println("central exit?");
+//        System.out.println("central exit?");
     }
 
     public Map<Integer, Integer> getPorts() {
@@ -82,7 +82,7 @@ public class CentralSite extends UnicastRemoteObject implements CentralSiteInter
 
     @Override
     public int setTxnCounter(TransactionId txn) throws RemoteException {
-        System.out.println(txn + " in map " + txnCounter.toString() + " ? " + txnCounter.containsKey(txn));
+//        System.out.println(txn + " in map " + txnCounter.toString() + " ? " + txnCounter.containsKey(txn));
         if (txnCounter.containsKey(txn)) {
             return txnCounter.get(txn);
         } else {
@@ -145,7 +145,7 @@ public class CentralSite extends UnicastRemoteObject implements CentralSiteInter
                 }
                 else {
                     // aborting txn dataSite is working on, remove it from txnCounter map
-                    System.out.println("abort: txn " + abortTxn + " in map " + txnCounter.toString() + " ? " + txnCounter.containsKey(abortTxn));
+                    LOG.info("abort: txn " + abortTxn + " in map " + txnCounter.toString() + " ? " + txnCounter.containsKey(abortTxn));
                     txnCounter.remove(abortTxn);
 
                     dataSite.abort();
@@ -252,7 +252,7 @@ public class CentralSite extends UnicastRemoteObject implements CentralSiteInter
 //                        counter++;
 //                    }
                     int setCounter = this.setTxnCounter(txn);
-                    System.out.println("central: lock granted, index: " + setCounter);
+                    LOG.info("central: lock granted, index: " + setCounter);
                     result.setIndex(setCounter);
                 } else {
                     result.setIndex(txn.getIndex());

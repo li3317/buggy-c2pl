@@ -1,0 +1,4 @@
+start
+r(Z)
+a(Z,q)
+w(Z)

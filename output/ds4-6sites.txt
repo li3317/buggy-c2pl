@@ -1,0 +1,7 @@
+-------4-------
+[M: a]
+[X: aapqapqacec]
+[Y: barssbarss]
+[Q: g]
+-------4-------
+site 4 took 33207 ms

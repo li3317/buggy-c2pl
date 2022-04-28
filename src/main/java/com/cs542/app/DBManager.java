@@ -105,7 +105,7 @@ public class DBManager {
 				query = "insert into kvstore values ('" + key + "', '" + value + "')";
 				LOG.info("[" + siteId + "] insert key " + key);
 			}
-			System.out.println(query);
+			LOG.info(query);
 			statement.executeUpdate(query);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -149,7 +149,7 @@ public class DBManager {
 			while (rs.next()) {
 				key = rs.getString("vkey");
 				value = rs.getString("value");
-				System.out.println("(" + siteId + ") [" + key + ": " + value + "]");
+				LOG.info("(" + siteId + ") [" + key + ": " + value + "]");
 				pr.println("[" + key + ": " + value + "]");
 			}
 		} catch (SQLException e) {

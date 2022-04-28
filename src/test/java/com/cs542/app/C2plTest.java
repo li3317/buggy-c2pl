@@ -52,8 +52,8 @@ public class C2plTest {
 
             String txnfile;
             for (int i = 1; i <= TOTAL_SITES; i++) {
-                txnfile = "transaction/test1-" + i + ".txt";
-                addSite(i, txnfile, portc, TOTAL_SITES);
+                txnfile = "transaction/basic" + i + ".txt";
+                addSite(i, txnfile, portc, TOTAL_SITES, "basic");
             }
 
             cs.setPorts(ports);
@@ -101,11 +101,8 @@ public class C2plTest {
             CentralSite cs = new CentralSite(portc, url, TOTAL_SITES);
             System.out.println("here1");
 
-//            DataSite ds1 = addSite(1, "transaction/testT1.txt", portc, TOTAL_SITES);
-//            DataSite ds2 = addSite(2, "transaction/testT2.txt", portc, TOTAL_SITES);
-
-            DataSite ds1 = addSite(1, "transaction/test1-1.txt", portc, TOTAL_SITES);
-            DataSite ds2 = addSite(2, "transaction/test1-1.txt", portc, TOTAL_SITES);
+            DataSite ds1 = addSite(1, "transaction/basic1.txt", portc, TOTAL_SITES, "testDeadlockBasic");
+            DataSite ds2 = addSite(2, "transaction/basic1.txt", portc, TOTAL_SITES, "testDeadlockBasic");
 
             cs.setPorts(ports);
 
@@ -151,13 +148,10 @@ public class C2plTest {
             CentralSite cs = new CentralSite(portc, url, TOTAL_SITES);
             System.out.println("here1");
 
-//            DataSite ds1 = addSite(1, "transaction/testT1.txt", portc, TOTAL_SITES);
-//            DataSite ds2 = addSite(2, "transaction/testT2.txt", portc, TOTAL_SITES);
-
-            DataSite ds1 = addSite(1, "transaction/test1-1.txt", portc, TOTAL_SITES);
-            DataSite ds2 = addSite(2, "transaction/test1-2.txt", portc, TOTAL_SITES);
-            DataSite ds3 = addSite(3, "transaction/test1-1.txt", portc, TOTAL_SITES);
-            DataSite ds4 = addSite(4, "transaction/test1-2.txt", portc, TOTAL_SITES);
+            DataSite ds1 = addSite(1, "transaction/test1-1.txt", portc, TOTAL_SITES, "test4");
+            DataSite ds2 = addSite(2, "transaction/test1-2.txt", portc, TOTAL_SITES, "test4");
+            DataSite ds3 = addSite(3, "transaction/test1-1.txt", portc, TOTAL_SITES, "test4");
+            DataSite ds4 = addSite(4, "transaction/test1-2.txt", portc, TOTAL_SITES, "test4");
 
 //            for (int i = 1; i <= TOTAL_SITES; i++) {
 //                addSite(i, "transaction/test1-1.txt", portc, TOTAL_SITES);
@@ -209,12 +203,12 @@ public class C2plTest {
             // set up centralSite first
             CentralSite cs = new CentralSite(portc, url, TOTAL_SITES);
 
-            DataSite ds1 = addSite(1, "transaction/test1-1.txt", portc, TOTAL_SITES);
-            DataSite ds2 = addSite(2, "transaction/test1-2.txt", portc, TOTAL_SITES);
-            DataSite ds3 = addSite(3, "transaction/test1-1.txt", portc, TOTAL_SITES);
-            DataSite ds4 = addSite(4, "transaction/test1-2.txt", portc, TOTAL_SITES);
-            DataSite ds5 = addSite(5, "transaction/test1-1.txt", portc, TOTAL_SITES);
-            DataSite ds6 = addSite(6, "transaction/test1-2.txt", portc, TOTAL_SITES);
+            DataSite ds1 = addSite(1, "transaction/test1-1.txt", portc, TOTAL_SITES, "6sites");
+            DataSite ds2 = addSite(2, "transaction/test1-2.txt", portc, TOTAL_SITES, "6sites");
+            DataSite ds3 = addSite(3, "transaction/test1-1.txt", portc, TOTAL_SITES, "6sites");
+            DataSite ds4 = addSite(4, "transaction/test1-2.txt", portc, TOTAL_SITES, "6sites");
+            DataSite ds5 = addSite(5, "transaction/test1-3.txt", portc, TOTAL_SITES, "6sites");
+            DataSite ds6 = addSite(6, "transaction/test1-6.txt", portc, TOTAL_SITES, "6sites");
 
             cs.setPorts(ports);
             dataSites.forEach(ds -> {
@@ -242,12 +236,12 @@ public class C2plTest {
         }
     }
 
-    public static DataSite addSite(int id, String file, int portc, int totalSites) throws RemoteException {
+    public static DataSite addSite(int id, String file, int portc, int totalSites, String outputFile) throws RemoteException {
         int port = Integer.parseInt(config.getProperty("port" + id));
         ports.put(id, port);
         DataSite ds = null;
         try {
-            ds = new DataSite(id, port, url, file, portc, totalSites);
+            ds = new DataSite(id, port, url, file, portc, totalSites, outputFile);
             dataSites.add(ds);
         } catch (RemoteException e) {
             LOG.info("Remote Exception in starting server: " + e.getMessage());

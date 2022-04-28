@@ -32,13 +32,13 @@ public class LockManager {
     public boolean requestLock(Operation op) throws Exception {
         if(isCompatible(op)) {
             Lock prevLock = findPrevTransactionLock(op.getTransactionId(), op.getKey());
-            System.out.println("prevLock:" + prevLock);
+//            System.out.println("prevLock:" + prevLock);
             if (prevLock != null) {
                 prevLock.upgradeType(op.getLockType());
             } else {
                 Lock lock = createLockForOp(op);
                 addLockForOp(lock);
-                System.out.println("created lock for " + op + " " + lock);
+                LOG.info("[LockManager] created lock for " + op + " " + lock);
 //                lockTable.putIfAbsent(lock.getKey(), new ArrayList<>());
 //                lockTable.get(lock.getKey()).add(getLockFromOp(op));
             }
@@ -84,7 +84,7 @@ public class LockManager {
                 }
             });
         });
-        System.out.println("getTransactionLocks:" + locks.toString());
+//        System.out.println("getTransactionLocks:" + locks.toString());
         return locks;
     }
 
@@ -104,11 +104,11 @@ public class LockManager {
     public ArrayList<Integer> releaseAndGrant(TransactionId id) {
         ArrayList<Integer> sites = new ArrayList<>();
         ArrayList<Lock> heldLocks = getTransactionLocks(id);
-        System.out.println(heldLocks.toString());
+//        System.out.println(heldLocks.toString());
         heldLocks.forEach(lock -> {
             lockTable.get(lock.getKey()).removeIf(l -> l.equals(lock)); // remove from table
             Operation op = dequeueOp(lock.getKey()); // get next op waiting if compatible
-            System.out.println("dequeueOp:" + op);
+            LOG.info("[LockManager] dequeueOp:" + op);
 
             if(op != null) {
                 Lock prevLock = findPrevTransactionLock(op.getTransactionId(), lock.getKey());
@@ -127,7 +127,7 @@ public class LockManager {
         });
         LOG.info("Transaction: " + id.toString() + " released locks");
         printTables();
-        System.out.println(sites.toString());
+//        System.out.println(sites.toString());
         return sites;
     }
 
@@ -167,7 +167,7 @@ public class LockManager {
                             tempMap.put(temp2, lock.transaction);
                             builder.addTaskWaitsFor(temp1, temp2);
 //                            builder.addTaskWaitsFor(b.transactionId, lock.transaction);
-                            System.out.println(b.transactionId + " " + lock.transaction);
+//                            System.out.println(b.transactionId + " " + lock.transaction);
                         }
                     });
                 });
@@ -180,7 +180,7 @@ public class LockManager {
         if(analysisResult.hasDeadlock()){
             DeadlockCycle<String> cycle = analysisResult.getDeadlockCycles().iterator().next();
             List<String> txns = cycle.getCycleTasks();
-            System.out.println(txns.toString());
+//            System.out.println(txns.toString());
             TransactionId temp1 = tempMap.get(txns.get(0));
             TransactionId temp2 = tempMap.get(txns.get(1));
             LOG.info("deadlocked transactions: " + temp1 + " " + temp2);
@@ -224,9 +224,9 @@ public class LockManager {
                     return false;
                 }
             } else {
-                System.out.println("l:" + lck.getTransaction());
-                System.out.println("lo:" + op.getTransactionId());
-                System.out.println(lck.getTransaction().equals(op.getTransactionId()));
+//                System.out.println("l:" + lck.getTransaction());
+//                System.out.println("lo:" + op.getTransactionId());
+//                System.out.println(lck.getTransaction().equals(op.getTransactionId()));
                 if(!lck.getTransaction().equals(op.getTransactionId())) {
                     return false;
                 }
