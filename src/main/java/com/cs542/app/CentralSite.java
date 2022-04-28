@@ -48,9 +48,15 @@ public class CentralSite extends UnicastRemoteObject implements CentralSiteInter
         txnCounter = new HashMap<>();
         this.port = port;
         finishedSites = new HashSet<>();
-
         try {
             LocateRegistry.createRegistry(port);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+
+
+        try {
+//            LocateRegistry.createRegistry(port);
             Naming.rebind("//" + url + ":" + port + "/central", this);
 
             // TODO: this log is useless!! fix!!

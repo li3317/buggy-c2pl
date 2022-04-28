@@ -1,0 +1,21 @@
+-------1-------
+[M: a]
+[X: aapqepqaacc]
+[Y: barssbarss]
+[Q: g]
+-------1-------
+site 1 took 33933 ms
+-------2-------
+[M: a]
+[X: aapqepqaacc]
+[Y: barssbarss]
+[Q: g]
+-------2-------
+site 2 took 33964 ms
+-------3-------
+[M: a]
+[X: aapqepqaacc]
+[Y: barssbarss]
+[Q: g]
+-------3-------
+site 3 took 33916 ms

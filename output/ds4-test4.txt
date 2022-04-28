@@ -2,4 +2,4 @@
 [X: aapqaapq]
 [Y: barssbarss]
 -------4-------
-site 4 took 16412 ms
+site 4 took 16382 ms

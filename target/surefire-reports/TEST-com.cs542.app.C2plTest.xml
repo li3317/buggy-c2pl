@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="com.cs542.app.C2plTest" time="55.833" tests="4" errors="0" skipped="0" failures="0">
+  <properties>
+    <property name="java.specification.version" value="16"/>
+    <property name="sun.jnu.encoding" value="UTF-8"/>
+    <property name="java.class.path" value="/Users/annabel/Desktop/Fibird/c2pl/target/test-classes:/Users/annabel/Desktop/Fibird/c2pl/target/classes:/Users/annabel/.m2/repository/junit/junit/4.11/junit-4.11.jar:/Users/annabel/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar:/Users/annabel/.m2/repository/mysql/mysql-connector-java/8.0.28/mysql-connector-java-8.0.28.jar:/Users/annabel/.m2/repository/com/google/protobuf/protobuf-java/3.11.4/protobuf-java-3.11.4.jar:/Users/annabel/.m2/repository/ch/petikoch/libs/jtwfg/2.0.0/jtwfg-2.0.0.jar:/Users/annabel/.m2/repository/org/javatuples/javatuples/1.2/javatuples-1.2.jar:"/>
+    <property name="java.vm.vendor" value="Homebrew"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="java.vendor.url" value="https://github.com/Homebrew/homebrew-core/issues"/>
+    <property name="os.name" value="Mac OS X"/>
+    <property name="java.vm.specification.version" value="16"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="user.country" value="US"/>
+    <property name="sun.boot.library.path" value="/usr/local/Cellar/openjdk/16.0.2/libexec/openjdk.jdk/Contents/Home/lib"/>
+    <property name="sun.java.command" value="/Users/annabel/Desktop/Fibird/c2pl/target/surefire/surefirebooter8322184147349460044.jar /Users/annabel/Desktop/Fibird/c2pl/target/surefire 2022-04-28T16-41-52_863-jvmRun1 surefire10627570086497560472tmp surefire_03060775631137178252tmp"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="surefire.test.class.path" value="/Users/annabel/Desktop/Fibird/c2pl/target/test-classes:/Users/annabel/Desktop/Fibird/c2pl/target/classes:/Users/annabel/.m2/repository/junit/junit/4.11/junit-4.11.jar:/Users/annabel/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar:/Users/annabel/.m2/repository/mysql/mysql-connector-java/8.0.28/mysql-connector-java-8.0.28.jar:/Users/annabel/.m2/repository/com/google/protobuf/protobuf-java/3.11.4/protobuf-java-3.11.4.jar:/Users/annabel/.m2/repository/ch/petikoch/libs/jtwfg/2.0.0/jtwfg-2.0.0.jar:/Users/annabel/.m2/repository/org/javatuples/javatuples/1.2/javatuples-1.2.jar:"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="/Users/annabel"/>
+    <property name="user.language" value="en"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2021-07-20"/>
+    <property name="java.home" value="/usr/local/Cellar/openjdk/16.0.2/libexec/openjdk.jdk/Contents/Home"/>
+    <property name="file.separator" value="/"/>
+    <property name="basedir" value="/Users/annabel/Desktop/Fibird/c2pl"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="surefire.real.class.path" value="/Users/annabel/Desktop/Fibird/c2pl/target/surefire/surefirebooter8322184147349460044.jar"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="java.runtime.version" value="16.0.2+0"/>
+    <property name="user.name" value="annabel"/>
+    <property name="path.separator" value=":"/>
+    <property name="os.version" value="10.14.5"/>
+    <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
+    <property name="java.vendor.version" value="Homebrew"/>
+    <property name="localRepository" value="/Users/annabel/.m2/repository"/>
+    <property name="java.vendor.url.bug" value="https://github.com/Homebrew/homebrew-core/issues"/>
+    <property name="java.io.tmpdir" value="/var/folders/c2/hq_7srm161j2j5p187v5yh840000gn/T/"/>
+    <property name="java.version" value="16.0.2"/>
+    <property name="user.dir" value="/Users/annabel/Desktop/Fibird/c2pl"/>
+    <property name="os.arch" value="x86_64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="java.library.path" value="/Users/annabel/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:."/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="java.vendor" value="Homebrew"/>
+    <property name="java.vm.version" value="16.0.2+0"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeBig"/>
+    <property name="java.class.version" value="60.0"/>
+  </properties>
+  <testcase name="testTriggerDeadlock" classname="com.cs542.app.C2plTest" time="3.138"/>
+  <testcase name="testBasic" classname="com.cs542.app.C2plTest" time="1.693"/>
+  <testcase name="testNodes" classname="com.cs542.app.C2plTest" time="34.354"/>
+  <testcase name="testTriggerDeadlock4" classname="com.cs542.app.C2plTest" time="16.614"/>
+</testsuite>

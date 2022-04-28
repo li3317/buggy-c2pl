@@ -1,7 +1,7 @@
 -------4-------
 [M: a]
-[X: aapqapqacec]
+[X: aapqepqaacc]
 [Y: barssbarss]
 [Q: g]
 -------4-------
-site 4 took 33207 ms
+site 4 took 33933 ms

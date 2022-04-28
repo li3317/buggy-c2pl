@@ -1,0 +1,42 @@
+-------1-------
+[M: a]
+[X: aapqepqaacc]
+[Y: barssbarss]
+[Q: g]
+-------1-------
+site 1 took 33933 ms
+-------2-------
+[M: a]
+[X: aapqepqaacc]
+[Y: barssbarss]
+[Q: g]
+-------2-------
+site 2 took 33964 ms
+-------3-------
+[M: a]
+[X: aapqepqaacc]
+[Y: barssbarss]
+[Q: g]
+-------3-------
+site 3 took 33916 ms
+-------4-------
+[M: a]
+[X: aapqepqaacc]
+[Y: barssbarss]
+[Q: g]
+-------4-------
+site 4 took 33933 ms
+-------5-------
+[M: a]
+[X: aapqepqaacc]
+[Y: barssbarss]
+[Q: g]
+-------5-------
+site 5 took 33963 ms
+-------6-------
+[M: a]
+[X: aapqepqaacc]
+[Y: barssbarss]
+[Q: g]
+-------6-------
+site 6 took 33991 ms

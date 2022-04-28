@@ -169,6 +169,7 @@ public class TransactionManager {
             long end = System.currentTimeMillis();
             writer.println("site " + siteId + " took " + (end - ds.startTime) + " ms");
             writer.close();
+            ds.commitWorkerDone();
 
         }
     }

@@ -43,9 +43,16 @@ public class DataSite extends UnicastRemoteObject implements Runnable, DataSiteI
 		this.id = id;
 		tm = new TransactionManager(this.id, totalSites, this, outputFile);
 		participants = new ArrayList<>();
+
+		try {
+			LocateRegistry.createRegistry(port);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+
 		try {
 			// set up dataSite
-			LocateRegistry.createRegistry(port);
+//			LocateRegistry.createRegistry(port);
 			String name = "//" + url + ":" + port + "/ds" + id;
 			Naming.rebind(name, this);
 			LOG.info("[" + id + "] Bind name: " + name);
@@ -172,6 +179,14 @@ public class DataSite extends UnicastRemoteObject implements Runnable, DataSiteI
 	@Override
 	public void hasFinished(int id) { //synchronized
 		tm.finishSite(id);
+	}
+
+	public void commitWorkerDone() {
+		try {
+			cs.finishSite(id);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -301,5 +316,11 @@ public class DataSite extends UnicastRemoteObject implements Runnable, DataSiteI
 				e.printStackTrace();
 			}
 		}
+//		LOG.info("data site " + id + " exit");
+//		try {
+//			cs.finishSite(id);
+//		} catch (RemoteException e) {
+//			e.printStackTrace();
+//		}
 	}
 }

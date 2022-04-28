@@ -3,10 +3,10 @@ com/cs542/app/Config.class
 com/cs542/app/Lock.class
 com/cs542/app/DataSite$1.class
 com/cs542/app/CentralSite.class
+com/cs542/app/RequestLockResult.class
 com/cs542/app/TransactionManager.class
 com/cs542/app/LockType.class
 com/cs542/app/TransactionManager$1.class
-com/cs542/app/C2plServer.class
 com/cs542/app/OpType.class
 com/cs542/app/DataSiteInterface.class
 com/cs542/app/Transaction.class

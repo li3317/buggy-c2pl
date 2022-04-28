@@ -1,6 +1,7 @@
 /Users/annabel/Desktop/Fibird/c2pl/src/main/java/com/cs542/app/Operation.java
 /Users/annabel/Desktop/Fibird/c2pl/src/main/java/com/cs542/app/Transaction.java
 /Users/annabel/Desktop/Fibird/c2pl/src/main/java/com/cs542/app/TransactionId.java
+/Users/annabel/Desktop/Fibird/c2pl/src/main/java/com/cs542/app/RequestLockResult.java
 /Users/annabel/Desktop/Fibird/c2pl/src/main/java/com/cs542/app/DataSiteInterface.java
 /Users/annabel/Desktop/Fibird/c2pl/src/main/java/com/cs542/app/Lock.java
 /Users/annabel/Desktop/Fibird/c2pl/src/main/java/com/cs542/app/LockType.java
