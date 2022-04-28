@@ -1,0 +1,8 @@
+start
+r(M)
+a(M,a)
+w(M)
+start
+r(Q)
+a(Q,g)
+w(Q)

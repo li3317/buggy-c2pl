@@ -32,7 +32,7 @@ public class CentralSite extends UnicastRemoteObject implements CentralSiteInter
 
     // for printing summary
     private int numDeadlocks;
-    public static int DELAY = 500;
+    public static int DELAY = 300; // 500
     public int totalSites;
 
 

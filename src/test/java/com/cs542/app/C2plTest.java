@@ -191,6 +191,57 @@ public class C2plTest {
         }
     }
 
+    @Test
+    public void testNodes() {
+        config = new Config("config/config.properties");
+        url = config.getProperty("url");
+        ports = new HashMap<>();
+        dataSites = new ArrayList<>();
+
+        int TOTAL_SITES = 6;
+
+        if (url == null) {
+            url = "localhost";
+        }
+        int portc = Integer.parseInt(config.getProperty("portc"));
+        try {
+
+            // set up centralSite first
+            CentralSite cs = new CentralSite(portc, url, TOTAL_SITES);
+
+            DataSite ds1 = addSite(1, "transaction/test1-1.txt", portc, TOTAL_SITES);
+            DataSite ds2 = addSite(2, "transaction/test1-2.txt", portc, TOTAL_SITES);
+            DataSite ds3 = addSite(3, "transaction/test1-1.txt", portc, TOTAL_SITES);
+            DataSite ds4 = addSite(4, "transaction/test1-2.txt", portc, TOTAL_SITES);
+            DataSite ds5 = addSite(5, "transaction/test1-1.txt", portc, TOTAL_SITES);
+            DataSite ds6 = addSite(6, "transaction/test1-2.txt", portc, TOTAL_SITES);
+
+            cs.setPorts(ports);
+            dataSites.forEach(ds -> {
+                ds.setUpParticipants(url, ports, TOTAL_SITES);
+            });
+
+            System.out.println("wtf");
+
+            ExecutorService executor = Executors.newFixedThreadPool(TOTAL_SITES + 1);
+            executor.execute(cs);
+
+
+            dataSites.forEach(ds -> {
+                executor.execute(ds);
+            });
+
+            executor.shutdown();
+            while (!executor.isTerminated()) {
+                // empty body
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public static DataSite addSite(int id, String file, int portc, int totalSites) throws RemoteException {
         int port = Integer.parseInt(config.getProperty("port" + id));
         ports.put(id, port);

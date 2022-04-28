@@ -2,6 +2,13 @@ start
 r(X)
 a(X,c)
 w(X)
-
+start
+r(X)
+a(X,c)
+w(X)
+start
+r(X)
+a(X,e)
+w(X)
 
 

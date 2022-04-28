@@ -2,3 +2,7 @@ start
 r(A)
 a(A,d)
 w(A)
+start
+r(X)
+a(X,q)
+w(X)

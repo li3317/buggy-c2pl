@@ -200,12 +200,14 @@ public class DataSite extends UnicastRemoteObject implements Runnable, DataSiteI
 										LOG.info("[" + id + "] lock for " + operation + " not granted");
 										blocked();
 
-										// lock granted, obtain index first
-										int newIndex = cs.setTxnCounter(transaction.getTransactionId());
-										System.out.println("got index " + newIndex + " , set ? " + operation.transactionId.getIndex());
-										if (!operation.transactionId.isIndexSet()) {
-											operation.transactionId.setIndex(newIndex);
-											System.out.println("set2?" + transaction.getTransactionId().isIndexSet());
+										if (!isAbort) {
+											// lock granted, obtain index first
+											int newIndex = cs.setTxnCounter(transaction.getTransactionId());
+											System.out.println("got index " + newIndex + " , set ? " + operation.transactionId.getIndex());
+											if (!operation.transactionId.isIndexSet()) {
+												operation.transactionId.setIndex(newIndex);
+												System.out.println("set2?" + transaction.getTransactionId().isIndexSet());
+											}
 										}
 									}
 									if(isAbort) {
@@ -258,7 +260,7 @@ public class DataSite extends UnicastRemoteObject implements Runnable, DataSiteI
 
 							isAbort = false;
 							System.out.println("sleep 1 sec");
-							wait(1000);
+							wait(500); // 1000
 							System.out.println("wake up");
 						} else {
 							System.out.println(transaction.getTransactionId() + " -1");

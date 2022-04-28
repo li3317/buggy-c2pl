@@ -1,0 +1,5 @@
+-------4-------
+[Y: barssrssbaarssb]
+[X: aapqapqaaapq]
+-------4-------
+site 4 took 45095 ms

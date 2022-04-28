@@ -45,7 +45,7 @@ public class TransactionManager {
         waitingTxn = ConcurrentHashMap.newKeySet();
         finishedSites = ConcurrentHashMap.newKeySet();
         abortedTxn = ConcurrentHashMap.newKeySet();
-        writer = new PrintWriter("ds" + siteId + "-out.txt", "UTF-8");
+        writer = new PrintWriter("output/ds" + siteId + "-out.txt", "UTF-8");
         dbMgr = new DBManager(siteId, writer);
         this.ds = ds;
         setUpDB();
