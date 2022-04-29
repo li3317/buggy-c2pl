@@ -1,0 +1,20 @@
+-------1-------
+[X: aapqaapq]
+[Y: barssbarss]
+-------1-------
+site 1 took 16415 ms
+-------2-------
+[X: aapqaapq]
+[Y: barssbarss]
+-------2-------
+site 2 took 16379 ms
+-------3-------
+[X: aapqaapq]
+[Y: barssbarss]
+-------3-------
+site 3 took 16394 ms
+-------4-------
+[X: aapqaapq]
+[Y: barssbarss]
+-------4-------
+site 4 took 16382 ms

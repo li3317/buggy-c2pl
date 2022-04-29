@@ -13,7 +13,7 @@ import java.util.*;
 import java.util.logging.Logger;
 
 public class CentralSite extends UnicastRemoteObject implements CentralSiteInterface, Runnable {
-//    private Logger LOG;
+    //    private Logger LOG;
 //    static {
 //        System.setProperty("java.util.logging.SimpleFormatter.format",
 //                "[%1$tF %1$tT] [%4$-7s]  %5$s %n"); // TODO: [Central]
@@ -31,7 +31,6 @@ public class CentralSite extends UnicastRemoteObject implements CentralSiteInter
     Map<Integer, Integer> ports;
 
     // for printing summary
-    private int numDeadlocks;
     public static int DELAY = 300; // 500
     public int totalSites;
 
@@ -121,18 +120,16 @@ public class CentralSite extends UnicastRemoteObject implements CentralSiteInter
             int n = list.length;
             StringBuilder builder = new StringBuilder();
             builder.append("RMI Registry: <");
-            for(int i = 0; i < n; i += 1) {
-                if(i == 0) {
+            for (int i = 0; i < n; i += 1) {
+                if (i == 0) {
                     builder.append(list[i]);
-                }
-                else {
+                } else {
                     builder.append(", ").append(list[i]);
                 }
             }
             builder.append(">");
             LOG.info(builder.toString());
-        }
-        catch(RemoteException e) {
+        } catch (RemoteException e) {
             LOG.info(" Remote Exception: " + e.getMessage());
         }
     }
@@ -140,16 +137,14 @@ public class CentralSite extends UnicastRemoteObject implements CentralSiteInter
     public synchronized void checkDeadlocks() {
 //        LOG.info("Checking Deadlocks...");
         Pair<TransactionId, List<Integer>> result = lm.checkDeadlocks();
-        if(result != null) {
-            numDeadlocks++;
+        if (result != null) {
             TransactionId abortTxn = result.getValue0();
             LOG.info("Deadlock detected, aborting " + abortTxn.toString());
             try {
                 DataSiteInterface dataSite = getDataSite(abortTxn.getSiteId());
                 if (dataSite == null) {
                     LOG.info("Datasite " + abortTxn.getSiteId() + " is null!");
-                }
-                else {
+                } else {
                     // aborting txn dataSite is working on, remove it from txnCounter map
                     LOG.info("abort: txn " + abortTxn + " in map " + txnCounter.toString() + " ? " + txnCounter.containsKey(abortTxn));
                     txnCounter.remove(abortTxn);
@@ -157,8 +152,7 @@ public class CentralSite extends UnicastRemoteObject implements CentralSiteInter
                     dataSite.abort();
                     LOG.info("Site " + abortTxn.getSiteId() + " aborted " + abortTxn.toString());
                 }
-            }
-            catch(Exception e) {
+            } catch (Exception e) {
                 LOG.info("Exception in getting data site: " + e.getMessage());
                 e.printStackTrace();
             }
@@ -187,30 +181,26 @@ public class CentralSite extends UnicastRemoteObject implements CentralSiteInter
             LOG.info("[central] looking up: " + "//localhost:" + ports.get(siteId) + "/ds" + siteId);
             DataSiteInterface ds = (DataSiteInterface) Naming.lookup("//localhost:" + ports.get(siteId) + "/ds" + siteId);
             return ds;
-        }
-        catch (RemoteException e) {
+        } catch (RemoteException e) {
             LOG.info("Remote Exception: " + e.getMessage());
             e.printStackTrace();
-        }
-        catch (NotBoundException e) {
+        } catch (NotBoundException e) {
             LOG.info("Not Bound Exception: " + e.getMessage());
             e.printStackTrace();
-        }
-        catch (NullPointerException e) {
+        } catch (NullPointerException e) {
             LOG.info("Null Pointer Exception: " + e.getMessage());
             e.printStackTrace();
-        }
-        catch (MalformedURLException e) {
+        } catch (MalformedURLException e) {
             LOG.info("Malformed URL Exception: " + e.getMessage());
             e.printStackTrace();
-        } catch(Exception e) {
+        } catch (Exception e) {
             LOG.info("Other exception in getDataSiteStub: " + e.getMessage());
             e.printStackTrace();
         }
         return null;
     }
 
-    public synchronized void releaseLock(TransactionId txn)  throws RemoteException {
+    public synchronized void releaseLock(TransactionId txn) throws RemoteException {
         LOG.info("Transaction: " + txn.toString() + " wants to release locks");
         try {
             List<Integer> unblockedSites = lm.releaseAndGrant(txn);
@@ -228,8 +218,7 @@ public class CentralSite extends UnicastRemoteObject implements CentralSiteInter
                     LOG.info("Datasite from release" + site + " null!");
                 }
             });
-        }
-        catch (NullPointerException e) {
+        } catch (NullPointerException e) {
             LOG.info("Null Pointer Exception in releaseLock: " + e.getMessage());
             e.printStackTrace();
         } catch (Exception e) {
@@ -238,7 +227,7 @@ public class CentralSite extends UnicastRemoteObject implements CentralSiteInter
         }
     }
 
-    public synchronized RequestLockResult requestLock(Operation op)  throws RemoteException {
+    public synchronized RequestLockResult requestLock(Operation op) throws RemoteException {
         LOG.info("Operation: " + op.toString() + " " + op.hashCode() + " requests locks");
         RequestLockResult result = new RequestLockResult();
         try {
@@ -267,12 +256,10 @@ public class CentralSite extends UnicastRemoteObject implements CentralSiteInter
             }
             result.setGranted(granted);
             return result;
-        }
-        catch(NullPointerException e) {
+        } catch (NullPointerException e) {
             LOG.info("Null Pointer Exception in requestLock: " + e.getMessage());
             e.printStackTrace();
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             LOG.info("Exception in requestLock: " + e.getMessage());
             e.printStackTrace();
         }

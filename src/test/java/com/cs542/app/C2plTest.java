@@ -1,7 +1,5 @@
 package com.cs542.app;
 
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Test;
 
 import java.io.FileNotFoundException;
@@ -28,8 +26,6 @@ public class C2plTest {
                 "[%1$tF %1$tT] [%4$-7s] %5$s %n");
         LOG = Logger.getLogger(C2plTest.class.getName());
     }
-
-//    private static final Logger LOG = Logger.getLogger(C2plTest.class.getName());
 
     @Test
     public void testBasic() {
@@ -206,8 +202,8 @@ public class C2plTest {
             DataSite ds1 = addSite(1, "transaction/test1-1.txt", portc, TOTAL_SITES, "6sites");
             DataSite ds2 = addSite(2, "transaction/test1-2.txt", portc, TOTAL_SITES, "6sites");
             DataSite ds3 = addSite(3, "transaction/test1-1.txt", portc, TOTAL_SITES, "6sites");
-            DataSite ds4 = addSite(4, "transaction/test1-2.txt", portc, TOTAL_SITES, "6sites");
-            DataSite ds5 = addSite(5, "transaction/test1-3.txt", portc, TOTAL_SITES, "6sites");
+            DataSite ds4 = addSite(4, "transaction/test1-4.txt", portc, TOTAL_SITES, "6sites");
+            DataSite ds5 = addSite(5, "transaction/test6-3.txt", portc, TOTAL_SITES, "6sites");
             DataSite ds6 = addSite(6, "transaction/test1-6.txt", portc, TOTAL_SITES, "6sites");
 
             cs.setPorts(ports);

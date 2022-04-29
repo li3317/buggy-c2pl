@@ -1,7 +1,9 @@
 -------4-------
+[Y: barss]
+[X: aapqpqaaq]
+[A: d]
+[U: cce]
 [M: a]
-[X: aapqepqaacc]
-[Y: barssbarss]
 [Q: g]
 -------4-------
-site 4 took 33933 ms
+site 4 took 28215 ms

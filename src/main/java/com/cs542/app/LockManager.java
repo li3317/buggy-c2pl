@@ -7,7 +7,7 @@ import java.util.*;
 import java.util.logging.Logger;
 
 public class LockManager {
-//    private Logger LOG;
+    //    private Logger LOG;
 //    static {
 //        System.setProperty("java.util.logging.SimpleFormatter.format",
 //                "[%1$tF %1$tT] [%4$-7s] %5$s %n");
@@ -30,7 +30,7 @@ public class LockManager {
     }
 
     public boolean requestLock(Operation op) throws Exception {
-        if(isCompatible(op)) {
+        if (isCompatible(op)) {
             Lock prevLock = findPrevTransactionLock(op.getTransactionId(), op.getKey());
 //            System.out.println("prevLock:" + prevLock);
             if (prevLock != null) {
@@ -60,8 +60,7 @@ public class LockManager {
             LOG.info("Aborting: " + transactionId.toString());
             LOG.info("List of sites to be unblocked: " + sites.toString());
             return sites;
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             LOG.warning("Error aborting transaction " + transactionId.toString() + ": " + e.getMessage());
             return new ArrayList<>();
         }
@@ -110,13 +109,12 @@ public class LockManager {
             Operation op = dequeueOp(lock.getKey()); // get next op waiting if compatible
             LOG.info("[LockManager] dequeueOp:" + op);
 
-            if(op != null) {
+            if (op != null) {
                 Lock prevLock = findPrevTransactionLock(op.getTransactionId(), lock.getKey());
                 if (prevLock != null) {
                     // if held a read lock before and need write lock, can upgrade
                     prevLock.upgradeType(op.getLockType());
-                }
-                else {
+                } else {
 //                    lockTable.putIfAbsent(lock.getKey(), new ArrayList<>());
 //                    lockTable.get(lock.getKey()).add(getLockFromOp(op));
                     Lock newlock = createLockForOp(op);
@@ -132,14 +130,14 @@ public class LockManager {
     }
 
     public Operation dequeueOp(String key) {
-        if(!opQueue.containsKey(key)) {
+        if (!opQueue.containsKey(key)) {
             return null;
         }
         Operation res = null;
         List<Operation> ops = opQueue.get(key);
-        if(isCompatible(ops.get(0))) {
+        if (isCompatible(ops.get(0))) {
             Operation operation = ops.remove(0);
-            if(ops.isEmpty()) {
+            if (ops.isEmpty()) {
                 opQueue.remove(key);
             }
             res = operation;
@@ -157,7 +155,7 @@ public class LockManager {
 //        builder.addTaskWaitsFor("B", "A");
         lockTable.forEach((key, locks) -> {
             List<Operation> blocked = opQueue.get(key);
-            if(blocked != null && !blocked.isEmpty()) {
+            if (blocked != null && !blocked.isEmpty()) {
                 locks.forEach(lock -> {
                     blocked.forEach(b -> {
                         if (!lock.transaction.equals(b.transactionId)) {
@@ -177,7 +175,7 @@ public class LockManager {
         Graph<String> waitForGraph = builder.build();
         DeadlockDetector<String> deadlockDetector = new DeadlockDetector<>();
         DeadlockAnalysisResult<String> analysisResult = deadlockDetector.analyze(waitForGraph);
-        if(analysisResult.hasDeadlock()){
+        if (analysisResult.hasDeadlock()) {
             DeadlockCycle<String> cycle = analysisResult.getDeadlockCycles().iterator().next();
             List<String> txns = cycle.getCycleTasks();
 //            System.out.println(txns.toString());
@@ -219,7 +217,7 @@ public class LockManager {
             return true;
         for (Lock lck : lockTable.get(op.getKey())) {
             if (op.getLockType() == LockType.READ) {
-                if(!lck.getTransaction().equals(op.getTransactionId()) &&
+                if (!lck.getTransaction().equals(op.getTransactionId()) &&
                         lck.getType() == LockType.WRITE) {
                     return false;
                 }
@@ -227,7 +225,7 @@ public class LockManager {
 //                System.out.println("l:" + lck.getTransaction());
 //                System.out.println("lo:" + op.getTransactionId());
 //                System.out.println(lck.getTransaction().equals(op.getTransactionId()));
-                if(!lck.getTransaction().equals(op.getTransactionId())) {
+                if (!lck.getTransaction().equals(op.getTransactionId())) {
                     return false;
                 }
             }

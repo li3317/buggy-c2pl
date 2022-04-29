@@ -3,6 +3,7 @@ package com.cs542.app;
 public class RequestLockResult implements java.io.Serializable {
     public int index;
     public boolean granted;
+
     public RequestLockResult() {
         index = -10;
     }

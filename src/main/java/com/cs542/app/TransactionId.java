@@ -6,6 +6,7 @@ public class TransactionId implements java.io.Serializable {
     private int seqNum;
     private int siteId;
     public int index; // assigned by central site, should be non-negative int
+
     public TransactionId(int seqNum, int siteId) {
         this.seqNum = seqNum;
         this.siteId = siteId;

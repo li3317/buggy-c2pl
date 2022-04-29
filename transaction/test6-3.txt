@@ -1,0 +1,14 @@
+start
+r(U)
+a(U,c)
+w(U)
+start
+r(U)
+a(U,c)
+w(U)
+start
+r(U)
+a(U,e)
+w(U)
+
+

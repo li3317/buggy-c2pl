@@ -11,7 +11,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class TransactionManager {
-//    private static Logger LOG = null;
+    //    private static Logger LOG = null;
     public static final int OP_DELAY = 100;
 
     private static final Logger LOG = Logger.getLogger(TransactionManager.class.getName());
@@ -23,7 +23,7 @@ public class TransactionManager {
 //    }
 
     private DBManager dbMgr; // only used by CommitWorker
-    private  int siteId;
+    private int siteId;
     private int seqNum;
     private ConcurrentHashMap<Integer, List<Operation>> preCommitTab;
     public List<Transaction> txnHistory;
@@ -54,7 +54,6 @@ public class TransactionManager {
 
         taskList.execute(new CommitWorker());
         taskList.shutdown();
-
 
 
 //        commitWorker = new CommitWorker();
@@ -101,10 +100,9 @@ public class TransactionManager {
 
                     case PUT:
 //                        System.out.println("put val:" + preWriteTab.get(key));
-                        if(preWriteTab.containsKey(key)) {
+                        if (preWriteTab.containsKey(key)) {
                             getDbMgr().write(key, preWriteTab.get(key));
-                        }
-                        else {
+                        } else {
                             throw new Exception("Write operation value not available!");
                         }
                         break;
@@ -218,8 +216,7 @@ public class TransactionManager {
             preCommitTab.get(index).add(operation);
             LOG.info("[" + siteId + "] " + operation.transactionId + " added to preCommitTab, size:"
                     + preCommitTab.get(index).size());
-        }
-        catch (InterruptedException e) {
+        } catch (InterruptedException e) {
             System.out.println("Interrupted Exception: " + e.getMessage());
             e.printStackTrace();
         }
@@ -232,12 +229,11 @@ public class TransactionManager {
         try {
             BufferedReader bf = new BufferedReader(new FileReader(txnFile));
             String line;
-            while((line = bf.readLine()) != null && !line.trim().isEmpty()) {
+            while ((line = bf.readLine()) != null && !line.trim().isEmpty()) {
                 ops.add(line);
             }
             bf.close();
-        }
-        catch(IOException e) {
+        } catch (IOException e) {
             LOG.info("[" + this.siteId + "] read txn file failed: " + e.getMessage());
         }
         txnHistory = getTxnFromFile(ops);
@@ -252,7 +248,7 @@ public class TransactionManager {
         TransactionId currentId = null;
         for (int i = 0; i < n; i++) {
             String cmd = ops.get(i);
-            if(cmd.toLowerCase().contains("start")) {
+            if (cmd.toLowerCase().contains("start")) {
                 if (current != null) { // end current txn
                     transactions.add(current);
                 }
@@ -266,16 +262,15 @@ public class TransactionManager {
                 Thread.sleep(waitTime);
             } else {
                 char opType = cmd.trim().charAt(0);
-                switch(opType) {
+                switch (opType) {
                     case 'r': {
                         Pattern pattern = Pattern.compile(".*\\((.*)\\).*");
                         Matcher matcher = pattern.matcher(cmd);
-                        if(matcher.matches()) {
+                        if (matcher.matches()) {
                             String key = matcher.group(1);
                             Operation operation = new Operation(key, null, OpType.GET, currentId, opIndex);
                             current.addOperation(operation);
-                        }
-                        else {
+                        } else {
                             throw new Exception("Read operation unsupported format: " + cmd);
                         }
                         break;
@@ -283,7 +278,7 @@ public class TransactionManager {
                     case 'w': {
                         Pattern pattern = Pattern.compile(".*\\((.*)\\).*");
                         Matcher matcher = pattern.matcher(cmd);
-                        if(matcher.matches()) {
+                        if (matcher.matches()) {
                             String key = matcher.group(1);
                             Operation operation = new Operation(key, null, OpType.PUT, currentId, opIndex);
                             current.addOperation(operation);
@@ -295,7 +290,7 @@ public class TransactionManager {
                     case 'a': { // append operation read key and append value to the result
                         Pattern pattern = Pattern.compile(".*\\((.*),(.*)\\).*");
                         Matcher matcher = pattern.matcher(cmd);
-                        if(matcher.matches()) {
+                        if (matcher.matches()) {
                             String key = matcher.group(1);
                             String value = matcher.group(2);
                             Operation operation = new Operation(key, value, OpType.APPEND, currentId, opIndex);
@@ -311,7 +306,7 @@ public class TransactionManager {
                 opIndex++;
             }
         }
-        if(current != null) {
+        if (current != null) {
             transactions.add(current);
         }
         return transactions;

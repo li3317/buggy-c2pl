@@ -9,7 +9,7 @@ public class Operation implements java.io.Serializable {
     public String value; // only applies to APPEND
     public OpType type;
     public TransactionId transactionId;
-//    public Lock lock; // every operation of every transaction will need to get a lock
+    //    public Lock lock; // every operation of every transaction will need to get a lock
     public int index; // order in current transaction
 
     public Operation(String key, String value, OpType type, TransactionId transactionId, int index) {

@@ -54,7 +54,7 @@ public class Lock implements java.io.Serializable {
         builder.append("[");
         builder.append(key + " (");
 
-        switch(type) {
+        switch (type) {
             case READ:
                 builder.append("read");
                 break;
